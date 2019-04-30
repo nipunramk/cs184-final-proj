@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    padding: 100px;
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+</style>
+<title>CS 184 Mesh Editor</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2019</h1>
+<h1 align="middle">Final Project: Audio Visualization</h1>
+<h2 align="middle">Nipun Ramakrishnan, Stephanie He, Lucas Pan</h2>
+
+<br><br>
+
+<div>
+
+<h2 align="middle">Overview</h2>
+<p>In this project, we worked on the problem of generating compelling visualizations given an audio file.  </p>
+
+<h2 align="middle">Audio Visualizations on a Simple Sphere Geometry</h2>
+The first visualization we attempted to create was a simple sphere that would change size and color according to frequencies in the music. We used the three.js framework to render a scene with a sphere. Once we generated a scene, we then used a listener from the Web Audio API to analyze the frequency domain data from the audio file. The frequencies provided from the audio context were then averaged into a single value that was then used to scale the radius of the sphere. Additionally, we normalized this average frequency value to a value between 0 and 1 by dividing it by the maximum frequency found in the frequency domain. We then mapped this normalized value to a specific color over the hex color scale as defined by HTML5. Below is a screenshot of the main code that changes attributes of the sphere. 
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/sphere_snippet.png" align="middle" width="400px"/>
+        <figcaption align="middle">Animation of Sphere</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h2 align="middle">Audio Visualizations on an Evenly Spaced Box Geometry</h2>
+
+The previous visualization consolidated all of the audio information into one final average value. This seemed like a huge compression of information, so we decided to make use of more of the frequency bins. In this visualization, we created a scene with 60 box geometries, each with a height attribute that corresponds to the z-axis of the mesh. We then generated an array of frequency bins from our frequency domain calculation at each time step defined by an audio context for the audio file. We then traversed the array by the number of bars in our frequency bin and scaled the z-axis of the bar if the frequency value was large enough. Below is a code snippet that animates the various box geometries. 
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/box_snippet.png" align="middle" width="400px"/>
+        <figcaption align="middle">Animation of Box Geometries</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- <div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/close_up.png" align="middle" width="350px"/>
+        <figcaption align="middle">Close up view of point masses and springs</figcaption>
+      </td>
+      <td>
+        <img src="images/all_constraints.png" align="middle" width="400px"/>
+        <figcaption align="middle">Structural, shearing, and bending springs </figcaption>
+      </td>
+    </tr>
+    <br>
+    <tr>
+      <td>
+        <img src="images/no_shearing.png" align="middle" width="350px"/>
+        <figcaption align="middle">Structural and bending springs</figcaption>
+      </td>
+      <td>
+        <img src="images/only_shearing.png" align="middle" width="400px"/>
+        <figcaption align="middle">Only shearing springs</figcaption>
+      </td>
+    </tr>
+  
+  </table>
+</div> -->
+
+<h2 align="middle">Part II: Simulation via Numerical Integration</h2>
+
+
+<!-- <div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/k_5000.png" align="middle" width="400px"/>
+        <figcaption align="middle">k = 5000</figcaption>
+      </td>
+      <td>
+        <img src="images/k_100000.png" align="middle" width="400px"/>
+        <figcaption align="middle">k = 100000</figcaption>
+      </td>
+    </tr>
+  </table>
+</div> -->
+
+
+<!-- <div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/density_1.png" align="middle" width="400px"/>
+        <figcaption align="middle">density = 1</figcaption>
+      </td>
+      <td>
+        <img src="images/density_1000.png" align="middle" width="400px"/>
+        <figcaption align="middle">density = 1000</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+ -->
+
+
+
+<!-- <div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/pinned_4_final_pos.png" align="middle" width="400px"/>
+        <figcaption align="middle">Final position of pinned4.json</figcaption>
+      </td>
+    </tr>
+  </table>
+</div> -->
+
+<h2 align="middle">Part III: Handling Collisions</h2>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
