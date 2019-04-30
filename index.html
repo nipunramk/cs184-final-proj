@@ -41,7 +41,7 @@ The first visualization we attempted to create was a simple sphere that would ch
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/sphere_snippet.png" align="middle" width="400px"/>
+        <img src="images/sphere_snippet.png" align="middle" width="800px"/>
         <figcaption align="middle">Animation of Sphere</figcaption>
       </td>
     </tr>
@@ -70,7 +70,7 @@ The previous visualization consolidated all of the audio information into one fi
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/box_snippet.png" align="middle" width="400px"/>
+        <img src="images/box_snippet.png" align="middle" width="600px"/>
         <figcaption align="middle">Animation of Box Geometries</figcaption>
       </td>
     </tr>
@@ -90,6 +90,32 @@ Below is an image of the mesh of box geometries. Additionally, <a href="https://
   </table>
 </div>
 
+<h2 align="middle">Audio Visualizations on a Sphere Mesh</h2>
+
+This visualization tries to change the position of the vertices on a sphere's mesh in correspondence to the frequencies of the music. For the geometry, we decided to use a Geodesic polyhedron - a sphere created by subdividing an icosahedron. 
+Like the other visualizers, this one uses the AudioContext interface to preprocess the audio file. It gets the frequency domain data of the audio file and splits them into two equally sized arrays: lower frequencies and higher frequencies. It then calculates the average frequency for both of these arrays. For every single vertex, it recalculates the position by first normalizing the vertex. It then feeds the vertex's position to the SimplexNoise API to randomly sample a noise from 3D. It calculates the distance each vertex will be displaced by summing the radius of the original sphere, the lower frequency average, and the noise multiplied by the higher frequency average. The vertex is multiplied by this scalar and the mesh updates accordingly by recalculating the vertex and face normals. 
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/mesh_snippet.png" align="middle" width="800px"/>
+        <figcaption align="middle">Updating the vertex positions</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/mesh.png" align="middle" width="400px"/>
+        <figcaption align="middle">Sphere Mesh</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 
 
 
