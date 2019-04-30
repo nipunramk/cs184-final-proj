@@ -48,6 +48,20 @@ The first visualization we attempted to create was a simple sphere that would ch
   </table>
 </div>
 
+Below is an image of the sphere mesh. Additionally, <a href="https://www.youtube.com/watch?v=esXthOfydBA&feature=youtu.be&fbclid=IwAR12Ozc0ODzi1OA7nfZFVUFKpqHr8jOoyFTENqTQHQYWk8rt_QAkKEztRG0">here</a> is a short video of the animation. 
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/sphere_geometry.png" align="middle" width="400px"/>
+        <figcaption align="middle">Sphere Mesh</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
 <h2 align="middle">Audio Visualizations on an Evenly Spaced Box Geometry</h2>
 
 The previous visualization consolidated all of the audio information into one final average value. This seemed like a huge compression of information, so we decided to make use of more of the frequency bins. In this visualization, we created a scene with 60 box geometries, each with a height attribute that corresponds to the z-axis of the mesh. We then generated an array of frequency bins from our frequency domain calculation at each time step defined by an audio context for the audio file. We then traversed the array by the number of bars in our frequency bin and scaled the z-axis of the bar if the frequency value was large enough. Below is a code snippet that animates the various box geometries. 
@@ -63,82 +77,20 @@ The previous visualization consolidated all of the audio information into one fi
   </table>
 </div>
 
-<!-- <div align="middle">
+Below is an image of the mesh of box geometries. Additionally, <a href="https://www.youtube.com/watch?v=2UwPaEBcUaA&feature=youtu.be">here</a> is a short video of the animation. 
+
+<div align="middle">
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/close_up.png" align="middle" width="350px"/>
-        <figcaption align="middle">Close up view of point masses and springs</figcaption>
-      </td>
-      <td>
-        <img src="images/all_constraints.png" align="middle" width="400px"/>
-        <figcaption align="middle">Structural, shearing, and bending springs </figcaption>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td>
-        <img src="images/no_shearing.png" align="middle" width="350px"/>
-        <figcaption align="middle">Structural and bending springs</figcaption>
-      </td>
-      <td>
-        <img src="images/only_shearing.png" align="middle" width="400px"/>
-        <figcaption align="middle">Only shearing springs</figcaption>
-      </td>
-    </tr>
-  
-  </table>
-</div> -->
-
-<h2 align="middle">Part II: Simulation via Numerical Integration</h2>
-
-
-<!-- <div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/k_5000.png" align="middle" width="400px"/>
-        <figcaption align="middle">k = 5000</figcaption>
-      </td>
-      <td>
-        <img src="images/k_100000.png" align="middle" width="400px"/>
-        <figcaption align="middle">k = 100000</figcaption>
-      </td>
-    </tr>
-  </table>
-</div> -->
-
-
-<!-- <div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/density_1.png" align="middle" width="400px"/>
-        <figcaption align="middle">density = 1</figcaption>
-      </td>
-      <td>
-        <img src="images/density_1000.png" align="middle" width="400px"/>
-        <figcaption align="middle">density = 1000</figcaption>
+        <img src="images/box_geometry.png" align="middle" width="400px"/>
+        <figcaption align="middle">Box Geometry Mesh</figcaption>
       </td>
     </tr>
   </table>
 </div>
- -->
 
 
-
-<!-- <div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/pinned_4_final_pos.png" align="middle" width="400px"/>
-        <figcaption align="middle">Final position of pinned4.json</figcaption>
-      </td>
-    </tr>
-  </table>
-</div> -->
-
-<h2 align="middle">Part III: Handling Collisions</h2>
 
 
 
