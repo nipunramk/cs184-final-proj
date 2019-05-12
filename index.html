@@ -25,14 +25,15 @@
 
 <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2019</h1>
 <h1 align="middle">Final Project: Audio Visualization</h1>
-<h2 align="middle">Nipun Ramakrishnan, Stephanie He, Lucas Pan</h2>
+<h2 align="middle">Nipun Ramakrishnan, Stephanie He</h2>
 
 <br><br>
 
 <div>
 
-<h2 align="middle">Overview</h2>
-<p>In this project, we worked on the problem of generating compelling visualizations given an audio file.  </p>
+<h2 align="middle">Abstract</h2>
+<p> Music visualization is often used by electronic music visualizers and media player software to generate real time, adaptive images based on the audio features of a piece of music. In this project, we want to delve into the techniques that people in this field use to detect the sound waves and transform them into visual imagery. We started off with several basic geometries, such as spheres and bars, and then moved onto more complex imagery like landscapes. We mainly used WebAudio API and Meyda.js to extract and process audio features and THREE.js and WEBGL frameworks to render the graphics. Several audio features that we explored include MFCC, RMS, chroma, and energy. 
+ </p>
 
 <h2 align="middle">Audio Visualizations on a Simple Sphere Geometry</h2>
 The first visualization we attempted to create was a simple sphere that would change size and color according to frequencies in the music. We used the three.js framework to render a scene with a sphere. Once we generated a scene, we then used a listener from the Web Audio API to analyze the frequency domain data from the audio file. The frequencies provided from the audio context were then averaged into a single value that was then used to scale the radius of the sphere. Additionally, we normalized this average frequency value to a value between 0 and 1 by dividing it by the maximum frequency found in the frequency domain. We then mapped this normalized value to a specific color over the hex color scale as defined by HTML5. Below is a screenshot of the main code that changes attributes of the sphere. 
@@ -90,10 +91,46 @@ Below is an image of the mesh of box geometries. Additionally, <a href="https://
   </table>
 </div>
 
+<h2 align="middle">Perlin/Simplex Noise</h2>
+
+A concept that we used in later visualizations to make them more compelling is Perlin Noise. 
+Unlike random noise, there is a smooth gradient between the randomly selected points. This
+is achieved by first creating a simplex grid in the specified dimension. Then, calculate 
+a random gradient vector in each intersection in the simplex grid. To find the final value,
+take the dot product of the gradient vectors and distance vectors to interpolate the value. 
+In our visualizations, this helped us change the position of the vertices in a smooth manner. 
+
+<div align="middle">
+    <table style="width=100%">
+      <tr>
+        <td>
+          <img src="images/simplexgrid.png" align="middle" width="500px"/>
+          <figcaption align="middle">simplex grid in 2D space</figcaption>
+        </td>
+        <td>
+          <img src="images/simplexgradients.png" align="middle" width="500px"/>
+          <figcaption align="middle">randomy gradient vectors</figcaption>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td>
+          <img src="images/perlin.png" align="middle" width="500px"/>
+          <figcaption align="middle">difference between random and perlin noise</figcaption>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+
+
 <h2 align="middle">Audio Visualizations on a Sphere Mesh</h2>
 
 This visualization tries to change the position of the vertices on a sphere's mesh in correspondence to the frequencies of the music. For the geometry, we decided to use a Geodesic polyhedron - a sphere created by subdividing an icosahedron. 
-Like the other visualizers, this one uses the AudioContext interface to preprocess the audio file. It gets the frequency domain data of the audio file and splits them into two equally sized arrays: lower frequencies and higher frequencies. It then calculates the average frequency for both of these arrays. For every single vertex, it recalculates the position by first normalizing the vertex. It then feeds the vertex's position to the SimplexNoise API to randomly sample a noise from 3D. It calculates the distance each vertex will be displaced by summing the radius of the original sphere, the lower frequency average, and the noise multiplied by the higher frequency average. The vertex is multiplied by this scalar and the mesh updates accordingly by recalculating the vertex and face normals. 
+Like the other visualizers, this one uses the AudioContext interface to preprocess the audio file. It gets the frequency domain data of the audio file and splits them into two equally sized arrays: lower frequencies and higher frequencies. It then calculates the average frequency for both of these arrays. For every single vertex, it recalculates the position by first normalizing the vertex. 
+The visualizer uses the vertex's position as well as the current time to seed the SimplexNoise instance
+and randomly sample a noise from 3D.
+It calculates the distance each vertex will be displaced by summing the radius of the original sphere, the lower frequency average, and the noise multiplied by the higher frequency average. The vertex is multiplied by this scalar and the mesh updates accordingly by recalculating the vertex and face normals. 
 
 <div align="middle">
   <table style="width=100%">
@@ -118,15 +155,81 @@ Like the other visualizers, this one uses the AudioContext interface to preproce
 </div>
 
 
+<h2 align="middle">Audio Visualizations on a Plane</h2>
+
+This visualization tries to change the position of the vertices on a plane mesh using Simplex Noise.
+Unlike the previous visualizations, this one uses RMS (root mean squared), which is essentially 
+the loudness, as the main audio feature
+when displacing each vertex. Again, we seed the SimplexNoise with the time and vertex's position
+to get a random value in 2D and amplify it by the RMS. 
+At the top, there is a musical scale at the top, and the color for each key changes depending on
+how much of that key contributes to the current audio playing. This uses the chroma feature
+of the audio file.
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/plane_code.png" align="middle" width="800px"/>
+        <figcaption align="middle">Updating the vertex positions</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/chroma.png" align="middle" width="800px"/>
+        <figcaption align="middle">Determining the scale</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/plane.png" align="middle" width="800px"/>
+        <figcaption align="middle">Plane visualization</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h2 align="middle">Challenges</h2>
+
+<p>Some challenges that we faced were how to display the audio features in a 
+visually compelling way. When we started off with just the sphere's radius and color changing,
+we felt like the user wouldn't gain as much information out of the visuals. To combat this,
+we looked into changing the actual vertices on the sphere mesh. 
+
+</p>
+
+
 <h2 align="middle">Reflection on Progress</h2>
 
 <p>Our main goal by this first milestone was to be able to successfully process the audio file and then use the audio file to alter various base geometries to create interesting visualizations. We achieved that goal and will continue to fine tune these geometric visualizations and add features. We will also explore using different audio features to generate visualizations and also explore looking at texture/landscape visualizations.</p>
 
 <p><a href="https://docs.google.com/presentation/d/1gotHWYzfvEhCX2WEEAsS95ao97fVGlePANzYO1rGQdw/edit#slide=id.g58fe59406f_0_0">Here</a> is a link to the google slides for our work thus far and <a href="https://youtu.be/emlJ6kqUvUY">here</a> is a link to our video that summarizes our work. </p> 
 
+<h2 align="middle">Contributions from each team member</h2>
+
+<p>Stephanie was in charge of creating the plane and sphere mesh visualizations that used Simplex Noise, as well as figuring out how to extract different audio features.  </p>
 
 
+<h2 align="middle">Resources </h2>
 
+<ol type="1">
+  <li><a href="https://www.npmjs.com/package/simplex-noise">Simplex Noise Package</a></li>
+  <li><a href="https://meyda.js.org/audio-features">Meyda.js framework</a></li>
+  <li><a href="https://www.youtube.com/watch?v=MJ3bvCkHJtE&t=953s">Perlin Noise Explained</a></li>
+  <li><a href="http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf">Simplex Noise Explained</a></li>
+  
+
+</ol>
 
 
 
