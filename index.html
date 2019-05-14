@@ -32,11 +32,11 @@
 <div>
 
 <h2 align="middle">Abstract</h2>
-<p> Music visualization is often used by electronic music visualizers and media player software to generate real time, adaptive images based on the audio features of a piece of music. In this project, we want to delve into the techniques that people in this field use to detect the sound waves and transform them into visual imagery. We started off with several basic geometries, such as spheres and bars, and then moved onto more complex imagery like landscapes. We mainly used WebAudio API and Meyda.js to extract and process audio features and THREE.js and WEBGL frameworks to render the graphics. Several audio features that we explored include MFCC, RMS, chroma, and energy. 
+<p> Music visualization is often used by electronic music visualizers and media player software to generate real time, adaptive images based on the audio features of a piece of music. In this project, we want to delve into the techniques that people in this field use to detect the sound waves and transform them into visual imagery. We started off with several basic geometries, such as spheres and bars, and then moved onto more complex imagery like landscapes. We mainly used WebAudio API and Meyda.js to extract and process audio features and THREE.js and WEBGL frameworks to render the graphics. Several audio features that we explored include MFCC, RMS, chroma, and energy. We found that using complex noise models such as Simplex and Perlin noise lead to the most engaging visualizations and using features such as average frequency and MFCC helped tremendously towards creating realistic changes in the images. 
  </p>
 
 <h2 align="middle">Audio Visualizations on a Simple Sphere Geometry</h2>
-The first visualization we attempted to create was a simple sphere that would change size and color according to frequencies in the music. We used the three.js framework to render a scene with a sphere. Once we generated a scene, we then used a listener from the Web Audio API to analyze the frequency domain data from the audio file. The frequencies provided from the audio context were then averaged into a single value that was then used to scale the radius of the sphere. Additionally, we normalized this average frequency value to a value between 0 and 1 by dividing it by the maximum frequency found in the frequency domain. We then mapped this normalized value to a specific color over the hex color scale as defined by HTML5. Below is a screenshot of the main code that changes attributes of the sphere. 
+The first visualization we attempted to create was a simple sphere that would change size and color according to frequencies in the music. We used the three.js framework to render a scene with a sphere. Once we generated a scene, we then used a listener from the Web Audio API to analyze the frequency domain data from the audio file. The frequencies provided from the audio context were then averaged into a single value that was then used to scale the radius of the sphere. Additionally, we normalized this average frequency value to a value between 0 and 1 by dividing it by the maximum frequency found in the frequency domain. We then mapped this normalized value to a specific color over the hex color scale as defined by HTML5. Below is a screenshot of the main code that changes attributes of the sphere. This code was built from looking at several audio visualization and three.js examples (outlined in the references) and then used as a framework to build later visualizations. 
 
 <div align="middle">
   <table style="width=100%">
@@ -199,34 +199,76 @@ of the audio file.
   </table>
 </div>
 
+<h2 align="middle">Audio Visualizations using Landscape Generation Techniques</h2>
+
+To create an effect of generating landscape that aligns with the input audio file, we created mesh that consisted of a three.js PlaneBufferGeometry. We then calculated the average frequency of the input at particular time steps using the frequency domain representation given by the Web Audio API as explained before. We augmented this value with some randomly generated Perlin noise and added these random values to each vertex in the mesh with some smoothing constants to create the landscape visualization. We repeated this process for each frame in the animation loop. Below are some screenshots of the key parts of the code and an image of an example landscape.  
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/Land_gen.png" align="middle" width="800px"/>
+        <figcaption align="middle">Landscape Scene Generation</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/add_noise.png" align="middle" width="800px"/>
+        <figcaption align="middle">Adding Noise to Mesh</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/landscape.png" align="middle" width="800px"/>
+        <figcaption align="middle">Landscape Image Example</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
 <h2 align="middle">Challenges</h2>
 
 <p>Some challenges that we faced were how to display the audio features in a 
 visually compelling way. When we started off with just the sphere's radius and color changing,
 we felt like the user wouldn't gain as much information out of the visuals. To combat this,
-we looked into changing the actual vertices on the sphere mesh. 
+we looked into changing the actual vertices on the sphere mesh. Another tricky aspect of audio visualization
+was integrating all the moving parts from obtaining audio features to applying these audio features to various 
+animation frames. It took a lot of playing around with parameters to make the animations smooth and compelling. 
 
 </p>
 
 
-<h2 align="middle">Reflection on Progress</h2>
+<!-- <h2 align="middle">Reflection on Progress</h2>
 
-<p>Our main goal by this first milestone was to be able to successfully process the audio file and then use the audio file to alter various base geometries to create interesting visualizations. We achieved that goal and will continue to fine tune these geometric visualizations and add features. We will also explore using different audio features to generate visualizations and also explore looking at texture/landscape visualizations.</p>
+<p>Our main goal by this first milestone was to be able to successfully process the audio file and then use the audio file to alter various base geometries to create interesting visualizations. We achieved that goal and will continue to fine tune these geometric visualizations and add features. We will also explore using different audio features to generate visualizations and also explore looking at texture/landscape visualizations.</p> -->
 
-<p><a href="https://docs.google.com/presentation/d/1gotHWYzfvEhCX2WEEAsS95ao97fVGlePANzYO1rGQdw/edit#slide=id.g58fe59406f_0_0">Here</a> is a link to the google slides for our work thus far and <a href="https://youtu.be/emlJ6kqUvUY">here</a> is a link to our video that summarizes our work. </p> 
+<p><a href="https://docs.google.com/presentation/d/1gotHWYzfvEhCX2WEEAsS95ao97fVGlePANzYO1rGQdw/edit#slide=id.g58fe59406f_0_0">Here</a> is a link to the google slides for our work and <a href="https://www.youtube.com/watch?v=Y0BtRpxaVLg&feature=youtu.be">here</a> is a link to our video that summarizes our work. </p> 
 
 <h2 align="middle">Contributions from each team member</h2>
 
-<p>Stephanie was in charge of creating the plane and sphere mesh visualizations that used Simplex Noise, as well as figuring out how to extract different audio features.  </p>
+<p>Stephanie was in charge of creating the plane and sphere mesh visualizations that used Simplex Noise, as well as figuring out how to extract different audio features. Nipun developed the initial sphere audio visualization framework and then expanded it to create the bar visualization. He also worked on landscape generation. The third member of our group Lucas Pan unfortunately did not contribute to this project (we mentioned this as a concern in the project milestone form). After the milestone, we did not receive any communication from him and we presented the project in the project showcase without him. The work on this project as presented was solely done by Stephanie and Nipun. </p>
 
 
-<h2 align="middle">Resources </h2>
+<h2 align="middle">Resources/References</h2>
 
 <ol type="1">
   <li><a href="https://www.npmjs.com/package/simplex-noise">Simplex Noise Package</a></li>
   <li><a href="https://meyda.js.org/audio-features">Meyda.js framework</a></li>
   <li><a href="https://www.youtube.com/watch?v=MJ3bvCkHJtE&t=953s">Perlin Noise Explained</a></li>
   <li><a href="http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf">Simplex Noise Explained</a></li>
+  <li><a href="http://davidscottlyons.com/threejs-intro/?fbclid=IwAR1ukdhWh-P6X9vcsATHlRTa0n4uCXWE-0UkjzXr_Dd9VJ2P6iHb0zgHcHc">Three.js Tutorial</a></li>
+  <li><a href="https://www.cg.tuwien.ac.at/courses/Seminar/WS2010/processing.pdf?fbclid=IwAR3jzDa7Clj5ghyLhFz4wn2RlJaug3uaQ0DNHPylvlBeXCfaopcON19VJGk">Audio Visualization Technical Overview</a></li>
+
   
 
 </ol>
